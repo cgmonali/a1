@@ -21,13 +21,19 @@ const AuthForm = () => {
    
 
     // optional: Add validation
-
+let url;
     if (isLogin) {
-    } else {
-      
-      fetch(
 
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDcyqi2t1KKsniE8q1DWoge17LEVLNT_ng',
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDcyqi2t1KKsniE8q1DWoge17LEVLNT_ng';
+    } else {
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDcyqi2t1KKsniE8q1DWoge17LEVLNT_ng'
+    }
+      
+    
+    fetch(
+  url
+        ,
         {
 
           method: 'POST',
@@ -44,19 +50,28 @@ const AuthForm = () => {
 
         
       ).then((res) => {
+      setIsLoading(false);
         if (res.ok) {
-          setIsLoading(false); // ...
+          return res.json(); // ...
         } else {
           return res.json().then((data) => {
-            // show an error modal 
-            setIsLoading(false);
-            alert(data.error.message);
-            console.log(data);
-            setIsLoading(false);
+            let errorMessage = 'Authentication failed!';
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+
+            throw new Error(errorMessage);
           });
         }
-      }).finally(() => setIsLoading(false));
-    }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+
+        console.log(err);
+        alert(err.message);
+      });
   };
 
   return (
