@@ -8,15 +8,16 @@ const AuthContext = React.createContext({
   login: (token) => {},
   logout: () => {},
 });
+ 
 
-const calculateRemainingTime = (expirationTime) => {
-  const currentTime = new Date().getTime();
-  const adjExpirationTime = new Date(expirationTime).getTime();
+  const calculateRemainingTime = (expirationTime) => {
+     const currentTime = new Date().getTime();
+     const adjExpirationTime = new Date(expirationTime).getTime();
 
-  const remainingDuration = adjExpirationTime - currentTime;
+     const remainingDuration = adjExpirationTime - currentTime;
 
-  return remainingDuration;
-};
+     return remainingDuration;
+  };
 
 const retrieveStoredToken = () => {
   const storedToken = localStorage.getItem('token');
